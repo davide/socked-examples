@@ -38,7 +38,7 @@
 
   Socked.ready(function(){
     try {
-      var host = window.location.host;
+      var host = window.location.search.substring(1);
       Socked.createConnection({id:'s1', server:host, appKey:'myKey',
           channels: [{name:'mouselive'}]
         });
