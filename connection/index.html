@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta HTTP-equiv="X-UA-Compatible" content="IE=EDGE">
+    <title>Socked - Connection Example</title>
+    <script type="text/javascript" language="javascript" src="http://cdn.sockjs.org/sockjs-0.2.min.js"></script>
+    <script type="text/javascript" language="javascript" src="../releases/socked-0.1.min.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+  Socked.ready(function(){
+  	try {
+      var host = window.location.host;
+      Socked.createConnection({id:'s1', server:host, appKey:'myKey',
+          channels: [{name:'batataChannel'}]
+        });
+      
+      var ref = Socked.subscribe('s1', 'interestsChannel', {role: 'both', interests: null})
+       ref.onConnect(function() {
+        console.log('client connected');
+        ref.send('hello');
+      }).onMessage(function(msg) {
+        console.log('client got msg: ', msg);
+      }).onDisconnect(function() {
+        console.log('client disconnected');
+      });
+      setTimeout(function(){
+        ref.unsubscribe();
+      }, 5000);
+      
+    } catch(e) {
+      console.log('Error setting up connection!');
+      return;
+    }
+  });
+</script>
+
+</body>
+</html>
+

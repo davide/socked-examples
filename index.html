@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="socked, sockjs, websockets, cross domain, html5" />
+
+  <title>Socked</title>
+</head>
+
+<body>
+
+<h2>Socked</h2>
+<pre>
+Socked is a persistent connection library for the web that
+gives you 'Connections' and 'Channels' to use as abstractions
+while creating your apps.
+
+To reduce traffic to an absolute minimum in channel subscriptions
+it is also possible to set the client's role (sender|receiver|both)
+and provide an array of 'interests' that should be used by a Socked
+compatible server to filter the channel messages.
+
+The communication mechanism is/will be pluggable. At this point
+Socked uses the SockJS library (which includes cross-domain support).
+</pre>
+
+<h3>Examples</h3>
+<ul>
+  <li>
+    <h4>Simple Connection</h4>
+    <p>
+      Connect to the server, send and receive a message and then disconnect.
+    </p>
+    <a href="connection/">Open example</a>
+  </li>
+  <li>
+    <h4>Interests</h4>
+    <p>
+      Connect 3 clients with different interests and show that each one only receives the messages matching those interests.
+    </p>
+    <a href="interests/">Open example</a>
+  </li>
+  <li>
+        <h4></h4>
+    <p>
+      Connect 3 clients with different interests and show that each one only receives the messages matching those interests.
+    </p>
+    <a href="mouselive/sender.html">Open sender</a>
+    <a href="mouselive/receiver.html">Open receiver</a>
+  </li>
+</ul>
+
+</body>
+</html>
