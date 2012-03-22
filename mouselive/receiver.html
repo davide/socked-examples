@@ -13,10 +13,12 @@
 
   <script type="text/javascript">
     Socked.ready(function(){
-      try {
-        var host = window.location.search.substring(1);
-        Socked.createConnection({id:'s1', server:host, appKey:'myKey',
-            channels: [{name:'mouselive'}]
+      var host = window.location.search.substring(1);
+      var connectionId = 'connection1';
+      var channelName = 'mouselive';
+      try {  
+        Socked.createConnection({id:connectionId, server:host, appKey:'myKey',
+            channels: [{name:channelName}]
           });
       } catch(e) {
         console.log('Error setting up connection!');
@@ -26,9 +28,12 @@
       var cursor = document.getElementById("cursor");
 
       var subscriptionOptions = {role: "receiver"};
-      var channelRef = Socked.subscribe("s1", "mouselive", subscriptionOptions);
-      channelRef.onConnect(function() {
-          console.log('connected to mouselive');
+      var ref = Socked.subscribe(connectionId, channelName, subscriptionOptions);
+      if (ref === null) {
+        console.log('Channel not found: ', channelName);
+      }
+      ref.onConnect(function() {
+          console.log('connected to ', channelName);
   		}).onMessage(function(msg) {
           var mousePosition = JSON.parse(msg);
           var x = mousePosition.shift();
@@ -36,7 +41,7 @@
           cursor.style.left = x + 'px';
           cursor.style.top = y + 'px';
   		}).onDisconnect(function() {
-          console.log('disconnected from mouselive');
+          console.log('disconnected from ', channelName);
   		});
     });
   </script>
