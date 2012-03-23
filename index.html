@@ -5,14 +5,12 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="keywords" content="socked, sockjs, websockets, cross domain, html5" />
-
+  <script type="text/javascript" src="servers.js"></script>
   <title>Socked</title>
 </head>
 
-<body>
-
-<h2>Socked</h2>
-<pre>
+<body style="font-family: monospace;white-space: pre;margin: 0;padding-left:20px">
+<h2 style="margin:0">Socked</h2>
 Socked is a persistent connection library for the web that
 gives you 'Connections' and 'Channels' to use as abstractions
 while creating your apps.
@@ -24,37 +22,50 @@ compatible server to filter the channel messages.
 
 The communication mechanism is/will be pluggable. At this point
 Socked uses the SockJS library (which includes cross-domain support).
-</pre>
 
-<h3>Examples</h3>
-<p>
-  All the examples below will connect to this <a href="http://socked-node.herokuapp.com/">this server</a>.
-</br>
-</p>
-<ul>
-  <li>
-    <h4>Simple Connection</h4>
-    <p>
-      Connect to the server, send and receive a message and then disconnect.
-    </p>
-    <a href="connection/index.html?socked-node.herokuapp.com">Open example</a>
-  </li>
-  <li>
-    <h4>Interests</h4>
-    <p>
-      Connect 3 clients with different interests and show that each one only receives the messages matching those interests.
-    </p>
-    <a href="interests/index.html?socked-node.herokuapp.com">Open example</a>
-  </li>
-  <li>
-        <h4></h4>
-    <p>
-      Connect 3 clients with different interests and show that each one only receives the messages matching those interests.
-    </p>
-    <a href="mouselive/sender.html?socked-node.herokuapp.com">Open sender</a>
-    <a href="mouselive/receiver.html?socked-node.herokuapp.com">Open receiver</a>
-  </li>
-</ul>
+
+<h2 style="margin:0">Usage Examples</h2>
+Select the server to use while trying out the examples: <select id="server">
+<script type="text/javascript">
+  var servers = servers || [];
+  for (var i=0; i<servers.length; i+=1) {
+    document.write('<option value="'+i+'">'+servers[i]+'</option>')
+  }
+</script>
+</select>
+(these values are configured on the servers.js file which is included in all examples)
+
+<strong>Simple Connection</strong>
+Connect to the server, send and receive a message and then disconnect.
+<a href="connection/index.html">Open example</a>
+
+<strong>Interests</strong>
+Connect 3 clients with different interests and show that each one only receives the messages matching those interests.
+<a href="interests/index.html">Open example</a>
+
+<strong>Mouselive</strong>
+Share mouse pointer location across sender and receivers.
+<a href="mouselive/sender.html">Open sender</a>
+<a href="mouselive/receiver.html">Open receiver</a>
+
+<strong>QR Code</strong>
+Using a QR Code to establish a connection with a mobile device.
+<a href="qrcode/index.html">Open example</a>
+
+<script type="text/javascript">
+  var anchors = document.getElementsByTagName('a');
+  for (var i=0; i<anchors.length; i+=1) {
+    (function() {
+      var a = anchors[i];
+      var href = a.getAttribute('href');
+      a.onclick = function() {
+        var selectedServer = document.getElementById('server').value;
+        window.location = href + '?s='+selectedServer;
+        return false;
+      };
+    })();
+  }
+</script>
 
 </body>
 </html>
