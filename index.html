@@ -4,9 +4,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Socked</title>
   <meta name="keywords" content="socked, sockjs, websockets, cross domain, html5" />
   <script type="text/javascript" src="servers.js"></script>
-  <title>Socked</title>
+  <script type="text/javascript" src="utils/parseuri.js"></script>
+  <script type="text/javascript">
+    servers = servers || [];
+    uri = parseUri(window.location);
+    serverId = uri.queryKey['s'] || 0;
+  </script>
 </head>
 
 <body style="font-family: monospace;white-space: pre;margin: 0;padding-left:20px">
@@ -27,9 +33,9 @@ Socked uses the SockJS library (which includes cross-domain support).
 <h2 style="margin:0">Usage Examples</h2>
 Select the server to use while trying out the examples: <select id="server">
 <script type="text/javascript">
-  var servers = servers || [];
-  for (var i=0; i<servers.length; i+=1) {
-    document.write('<option value="'+i+'">'+servers[i]+'</option>')
+  for (var i=0; i < servers.length; i+=1) {
+    var selected = (i == serverId) ? 'selected="selected"' : '';
+    document.write('<option '+selected+' value="'+i+'">'+servers[i]+'</option>')
   }
 </script>
 </select>
@@ -37,33 +43,35 @@ Select the server to use while trying out the examples: <select id="server">
 
 <strong>Simple Connection</strong>
 Connect to the server, send and receive a message and then disconnect.
-<a href="connection/index.html">Open example</a>
+<a href="#" data-href="connection/index.html">Open example</a>
 
 <strong>Interests</strong>
 Connect 3 clients with different interests and show that each one only receives the messages matching those interests.
-<a href="interests/index.html">Open example</a>
+<a href="#" data-href="interests/index.html">Open example</a>
 
 <strong>Mouselive</strong>
 Share mouse pointer location across sender and receivers.
-<a href="mouselive/sender.html">Open sender</a>
-<a href="mouselive/receiver.html">Open receiver</a>
+<a href="#" data-href="mouselive/sender.html">Open sender</a>
+<a href="#" data-href="mouselive/receiver.html">Open receiver</a>
 
 <strong>QR Code</strong>
 Using a QR Code to establish a connection with a mobile device.
-<a href="qrcode/index.html">Open example</a>
+<a href="#" data-href="qrcode/index.html">Open example</a>
 
 <script type="text/javascript">
+  var serverSelect = document.getElementById('server');
+  var onServerChange = function() {
+    var newServerId = this.value;
+    window.location = 'http://' + uri.authority + '/?s=' + newServerId;
+  };
+  serverSelect.onchange = onServerChange;
+
   var anchors = document.getElementsByTagName('a');
-  for (var i=0; i<anchors.length; i+=1) {
-    (function() {
-      var a = anchors[i];
-      var href = a.getAttribute('href');
-      a.onclick = function() {
-        var selectedServer = document.getElementById('server').value;
-        window.location = href + '?s='+selectedServer;
-        return false;
-      };
-    })();
+  for (var i=0; i < anchors.length; i+=1) {
+    var a = anchors[i];
+    var href = a.getAttribute('data-href');
+    href += '?s=' + serverId;
+    a.setAttribute('href', href);
   }
 </script>
 
