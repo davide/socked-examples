@@ -11,23 +11,23 @@ Socked.ready(function(){
           channels: [{name:channelName}]
         });
     } catch(e) {
-      console.log('Error setting up connection:', e);
+      DocLogger.log('Error setting up connection:', e);
       return;
     }
-    
+
     var setup = function(ref, name) {
       ref.onConnect(function() {
-        console.log(name, ' connected');
+        DocLogger.log(name, ' connected');
       }).onMessage(function(msg) {
-        console.log(name, ' got msg: {', msg.action,',', msg.user, '}');
+        DocLogger.log(name, ' got msg: {', msg.action,',', msg.user, '}');
       }).onDisconnect(function() {
-        console.log(name, ' disconnected');
+        DocLogger.log(name, ' disconnected');
       });
     };
     
     var ref1 = Socked.subscribe(connectionId, channelName, {role: 'both', interests: null})
     if (ref1 === null) {
-      console.log('Channel not found: ', channelName);
+      DocLogger.log('Channel not found: ', channelName);
     }
     // here channelInterests should be null
     setup(ref1, 'c1');
@@ -83,7 +83,7 @@ Socked.ready(function(){
     }, 500);
               
   } catch(e) {
-    console.log('Socked error: ', e);
+    DocLogger.log('Socked error: ', e);
     return;
   }
 });
