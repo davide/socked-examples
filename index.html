@@ -62,7 +62,7 @@ Using a QR Code to establish a connection with a mobile device.
   var serverSelect = document.getElementById('server');
   var onServerChange = function() {
     var newServerId = this.value;
-    window.location = 'http://' + uri.authority + '/?s=' + newServerId;
+    window.location = uri.path + '?s=' + newServerId;
   };
   serverSelect.onchange = onServerChange;
 
