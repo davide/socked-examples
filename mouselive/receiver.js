@@ -14,7 +14,7 @@ Socked.ready(function(){
     return;
   }
 
-  var cursor = document.getElementById("cursor");
+  var cursor = null;
 
   var subscriptionOptions = {role: "receiver"};
   var ref = Socked.subscribe(connectionId, channelName, subscriptionOptions);
@@ -27,6 +27,11 @@ Socked.ready(function(){
       var mousePosition = JSON.parse(msg);
       var x = mousePosition.shift();
       var y = mousePosition.shift();
+      if (cursor == null) {
+        var cursorHTML = '<img id="cursor" style="position:absolute;top:-30px;left:-30px;margin-top:-15px;margin-left:-15px" src="Map_pointer.svg" />';
+        document.write(cursorHTML);
+        cursor = document.getElementById("cursor");
+      }
       cursor.style.left = x + 'px';
       cursor.style.top = y + 'px';
 	}).onDisconnect(function() {
