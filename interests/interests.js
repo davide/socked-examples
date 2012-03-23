@@ -24,7 +24,8 @@ Socked.ready(function(){
         DocLogger.log(name, ' disconnected');
       });
     };
-    
+
+    DocLogger.log('subscribing c1...')
     var ref1 = Socked.subscribe(connectionId, channelName, {role: 'both', interests: null})
     if (ref1 === null) {
       DocLogger.log('Channel not found: ', channelName);
@@ -34,6 +35,7 @@ Socked.ready(function(){
 
     ref1.send({action:'x', user:'c1'});
     
+    DocLogger.log('subscribing c2...')
     var ref2 = Socked.subscribe(connectionId, channelName, {role: 'both', interests: ['a']})
     // here channelInterests should be null
     setup(ref2, 'c2');
@@ -42,6 +44,7 @@ Socked.ready(function(){
     ref1.send({action:'y', user:'c1'});
     ref1.send({action:'a', user:'c1'});
     
+    DocLogger.log('subscribing c3...')
     var ref3 = Socked.subscribe(connectionId, channelName, {role: 'both', interests: ['b']})
     // here channelInterests should be null
     setup(ref3, 'c3');
@@ -50,9 +53,12 @@ Socked.ready(function(){
     ref1.send({action:'y', user:'c1'});
     ref1.send({action:'a', user:'c1'});
     ref1.send({action:'b', user:'c1'});
-
+    
+    var unsubscribeTimeout = 1500;
+    
     // the timeout below are required to give some time to receive the messages before unsubscribing
     setTimeout(function() {
+      DocLogger.log('unsubscribing c1...')
 
       ref1.unsubscribe();
       // here channelInterests should be ['a', 'b']
@@ -63,6 +69,7 @@ Socked.ready(function(){
       ref2.send({action:'b', user:'c2'});
 
       setTimeout(function() {
+        DocLogger.log('unsubscribing c2...')
 
         ref2.unsubscribe();
         // here channelInterests should be ['b']
@@ -72,15 +79,16 @@ Socked.ready(function(){
         ref3.send({action:'b', user:'c3'});
         
         setTimeout(function() {
-        
+          DocLogger.log('unsubscribing c3...')
+
           ref3.unsubscribe();
           // here channelInterests should be null
         
-        }, 500);
+        }, unsubscribeTimeout);
 
-      }, 500);
+      }, unsubscribeTimeout);
 
-    }, 500);
+    }, unsubscribeTimeout);
               
   } catch(e) {
     DocLogger.log('Socked error: ', e);
