@@ -6,46 +6,12 @@
     <title>Socked - Connection Example</title>
     <script type="text/javascript" src="../servers.js"></script>
     <script type="text/javascript" src="../utils/parseuri.js"></script>
-    <script type="text/javascript" language="javascript" src="../releases/sockjs-0.2.min.js"></script>
-    <script type="text/javascript" language="javascript" src="../releases/socked-0.1.js"></script>
+    <script type="text/javascript" language="javascript" src="http://cdn.sockjs.org/sockjs-0.2.min.js"></script>
+    <script type="text/javascript" language="javascript" src="../releases/socked-0.1.min.js"></script>
+    <script type="text/javascript" src="../utils/log.js"></script>
+    <script type="text/javascript" src="connection.js"></script>
 </head>
 <body>
-
-<script type="text/javascript">
-  Socked.ready(function(){
-  	try {
-      var uri = parseUri(window.location);
-      var serverId = uri.queryKey['s'];
-      var server = servers[serverId] || servers[0];
-
-      var connectionId = 'connection1';
-      var channelName = 'batataChannel';
-      Socked.createConnection({id:connectionId, server:server, appKey:'myKey',
-          channels: [{name:channelName}]
-        });
-      
-      var ref = Socked.subscribe(connectionId, channelName, {role: 'both', interests: null})
-      if (ref === null) {
-        console.log('Channel not found: ', channelName);
-      }
-      ref.onConnect(function() {
-        console.log('client connected');
-        ref.send('hello');
-      }).onMessage(function(msg) {
-        console.log('client got msg: ', msg);
-      }).onDisconnect(function() {
-        console.log('client disconnected');
-      });
-      setTimeout(function(){
-        ref.unsubscribe();
-      }, 5000);
-      
-    } catch(e) {
-      console.log('Error setting up connection!', e);
-      return;
-    }
-  });
-</script>
 
 </body>
 </html>
